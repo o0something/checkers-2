@@ -25,7 +25,4 @@ public class Player {
         return points;
     }
 
-    public void makeMove(Piece piece, Square new_pos){
-        piece.move(new_pos);
-    }
 }

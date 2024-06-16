@@ -10,12 +10,13 @@ public class Board {
     public Board(){
         squares = new ArrayList<Square>();
     }
-    public void add_square(Piece piece, Position pos){
-        //logic to add a piece and i thik a will do its so a square changes from free to occupide
-        // so from  thsi "" to "0"
-    }
-    public void remove_piece(Piece piece, Position pos){
 
+    public void remove_piece(Piece piece, Position pos){
+        for (Square square : squares){
+            if (square.pos.getX() == pos.getX() && square.pos.getY() == pos.getY()){
+                square.remove_piece();
+            }
+        }
     }   
 
     public ArrayList<Square> getSquares(){
@@ -25,4 +26,13 @@ public class Board {
     public void add_square(Square square){
         squares.add(square);
     }
+
+    public void add_piece(Piece piece, Position pos){
+        for (Square square : squares){
+            if (square.pos.getX() == pos.getX() && square.pos.getY() == pos.getY()){
+                square.add_piece(piece);
+            }
+        }
+    }
+
 }

@@ -5,24 +5,26 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
 public class Gui {
     public static void main(String[] args) {
-        // Create a new game
-        // Game game = new Game();
-        // Start the game
-        // game.start();
-        // Create a new frame
         JFrame frame = new JFrame("Checkers Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 800);
-        frame.add(new MyPanel());
+        Currentsquers currentsquers = new Currentsquers();
+        MyPanel myPanel = new MyPanel(currentsquers);
+        frame.add(myPanel);
         frame.setVisible(true);
+        Game game = new Game(currentsquers,myPanel.getBPanel());
+        game.start();
+        while (true) {
+            game.update();
+        }
         
     }
-
-    public static class MyPanel extends JPanel {
-        public MyPanel() {
+}
+    class MyPanel extends JPanel {
+        private BoardPanel boardPanel;
+        public MyPanel(Currentsquers currentsquers) {
             setLayout(new BorderLayout());
 
             // Create buttons
@@ -38,29 +40,12 @@ public class Gui {
             //create a new board
             Board board = new Board();
             //create a new squares with loop and and with the pieces
-            for (int i = 0; i < 8; i++) {
-                for (int j = 0; j < 8; j++) {
-                    String color;
-                    if ((i + j) % 2 == 0) {
-                        color = "white";
-                    } else {
-                        color = "black";
-                    }
-                    Square square = new Square(new Position(j, i), color);
-                    if (color.equals("black")) {
-                        if (i < 3) {
-                            Piece piece = new Piece(player1);
-                            square.add_piece(piece);
-                        } else if (i > 4) {
-                            Piece piece = new Piece(player2);
-                            square.add_piece(piece);
-                        }
-                    }
-                    board.add_square(square.getSquare());
-                }
-            }
+
             
-            JPanel boardPanel = new BoardPanel(board).getPanel();
+            // Create board panel
+            BoardPanel boardPanel = new BoardPanel(board, currentsquers);
+            JPanel panel = boardPanel.makJPanel(player1, player2);
+            boardPanel.render();
 
             // Add buttons and board panel to the main panel
             JPanel buttons = new JPanel();
@@ -72,7 +57,7 @@ public class Gui {
             buttons.add(startButton);
             // buttons.add(stopButton);
             add(buttons, BorderLayout.SOUTH);
-            add(boardPanel, BorderLayout.CENTER);
+            add(panel, BorderLayout.CENTER);
             JPanel points= new JPanel();
             p1_points.setFont(new Font("Ariel", Font.BOLD, 20));
             p2_points.setFont(new Font("Ariel", Font.BOLD, 20));
@@ -87,7 +72,9 @@ public class Gui {
                     // Handle start button click
                 }
             });
-
         }
-    }
+
+        public BoardPanel getBPanel() {
+            return boardPanel;
+        }
     }

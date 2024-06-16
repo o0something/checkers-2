@@ -11,11 +11,15 @@ public class Piece{
         // this.player.color=player.col
         this.isKing=false;
         if (player.color=="black"){
-            symbol="◉";
-        }else{
-            symbol="◎";
+            this.symbol="✈";
+        } else if(player.color=="white") {
+            this.symbol="▍ ▌";
         }
 
+    }
+    public Piece(){
+        this.isKing=false;
+        this.symbol="e";
     }
 
     public void move(Square new_pos){
@@ -40,5 +44,10 @@ public class Piece{
     public String getSymbol(){
        return symbol;
     }
+
+    public void setSymbol(String symbol){
+        this.symbol=symbol;
+    }
+
     
 }
