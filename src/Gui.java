@@ -2,8 +2,6 @@ package src;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Gui {
     public static void main(String[] args) {
@@ -14,67 +12,71 @@ public class Gui {
         MyPanel myPanel = new MyPanel(currentsquers);
         frame.add(myPanel);
         frame.setVisible(true);
-        Game game = new Game(currentsquers,myPanel.getBPanel());
+        Game game = new Game(currentsquers, myPanel.getBPanel(), myPanel.player1, myPanel.player2);
         game.start();
         while (true) {
             game.update();
+            myPanel.move1.setText(currentsquers.getPosStart());
+            myPanel.p1_points.setText("Player White: " + myPanel.player1.getPoints() + " ");
+            myPanel.p2_points.setText("Player Black: " + myPanel.player2.getPoints() + " ");
+            myPanel.currentplayer.setText("Current Player: " + "<" + game.getCurentPlayerName() + "> ");
         }
-        
+
     }
 }
-    class MyPanel extends JPanel {
-        private BoardPanel boardPanel;
-        public MyPanel(Currentsquers currentsquers) {
-            setLayout(new BorderLayout());
 
-            // Create buttons
-            JButton startButton = new JButton("Start");
-            // JButton stopButton = new JButton("Stop");
-            // JButton PauseButton = new JButton("Pause");
-            //create a  player 1
-            Player player1 = new Player("white");
-            //create a player 2
-            Player player2 = new Player("black");
-            JLabel  p1_points = new JLabel("Player 1: "+player1.getPoints());
-            JLabel  p2_points = new JLabel("Player 2: "+player2.getPoints());
-            //create a new board
-            Board board = new Board();
-            //create a new squares with loop and and with the pieces
+class MyPanel extends JPanel {
+    private BoardPanel boardPanel;
+    public Player player1;
+    public Player player2;
+    public JLabel move1;
+    public JLabel p1_points;
+    public JLabel p2_points;
+    public JLabel currentplayer;
 
-            
-            // Create board panel
-            BoardPanel boardPanel = new BoardPanel(board, currentsquers);
-            JPanel panel = boardPanel.makJPanel(player1, player2);
-            boardPanel.render();
+    public MyPanel(Currentsquers currentsquers) {
+        setLayout(new BorderLayout());
+        // create a player 1
+        this.player1 = new Player("white");
+        // create a player 2
+        this.player2 = new Player("black");
+        this.p1_points = new JLabel("Player White: " + player1.getPoints() + " ");
+        this.p2_points = new JLabel("Player Black: " + player2.getPoints() + " ");
+        this.currentplayer = new JLabel("Current Player: " + "<White>");
+        // making a tab with cuurent squers selected
+        JLabel moves = new JLabel("Selected : ");
+        this.move1 = new JLabel(currentsquers.getPosStart());
+        // create a new board
+        Board board = new Board();
+        // create a new squares with loop and and with the pieces
 
-            // Add buttons and board panel to the main panel
-            JPanel buttons = new JPanel();
-            buttons.setLayout(new GridLayout(1, 1));
-            startButton.setBackground(new Color(207, 199, 245));
-            // stopButton.setBackground(new Color(207, 199, 245));
-            startButton.setFont(new Font("Ariel", Font.BOLD, 20));
-            // stopButton.setFont(new Font("Ariel", Font.BOLD, 20));
-            buttons.add(startButton);
-            // buttons.add(stopButton);
-            add(buttons, BorderLayout.SOUTH);
-            add(panel, BorderLayout.CENTER);
-            JPanel points= new JPanel();
-            p1_points.setFont(new Font("Ariel", Font.BOLD, 20));
-            p2_points.setFont(new Font("Ariel", Font.BOLD, 20));
-            points.add(p1_points, BorderLayout.NORTH);
-            points.add(p2_points, BorderLayout.NORTH);
-            add(points, BorderLayout.NORTH);
+        // Create board panel
+        this.boardPanel = new BoardPanel(board, currentsquers);
+        JPanel panel = boardPanel.makJPanel(player1, player2);
+        boardPanel.render();
 
-            // Add action listeners to the buttons
-            startButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // Handle start button click
-                }
-            });
-        }
+        // Add buttons and board panel to the main panel
+        add(panel, BorderLayout.CENTER);
+        // add the points of the players
+        JPanel points = new JPanel();
+        p1_points.setFont(new Font("Ariel", Font.BOLD, 20));
+        p2_points.setFont(new Font("Ariel", Font.BOLD, 20));
+        currentplayer.setFont(new Font("Ariel", Font.BOLD, 20));
+        points.add(p1_points, BorderLayout.NORTH);
+        points.add(p2_points, BorderLayout.NORTH);
+        points.add(currentplayer, BorderLayout.NORTH);
+        add(points, BorderLayout.NORTH);
+        // add the tab with the current squers
+        JPanel movesPanel = new JPanel(new GridLayout(1, 2));
+        moves.setFont(new Font("Ariel", Font.BOLD, 20));
+        this.move1.setFont(new Font("Ariel", Font.BOLD, 20));
+        movesPanel.add(moves);
+        movesPanel.add(this.move1);
+        points.add(movesPanel, BorderLayout.WEST);
 
-        public BoardPanel getBPanel() {
-            return boardPanel;
-        }
     }
+
+    public BoardPanel getBPanel() {
+        return boardPanel;
+    }
+}

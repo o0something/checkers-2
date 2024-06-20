@@ -1,27 +1,29 @@
 package src;
+
 import java.util.HashMap;
 
 public class Player {
     public String color;
     private int points;
-    private HashMap<Piece, Position> Pieces = new HashMap<Piece,Position>();
-    public Player(String color){
-        this.color=color;
+    private HashMap<Piece, Position> Pieces = new HashMap<Piece, Position>();
+
+    public Player(String color) {
+        this.color = color;
     }
 
-    public void addPiece(Piece piece, Position pos){
+    public void addPiece(Piece piece, Position pos) {
         Pieces.put(piece, pos);
     }
 
-    public HashMap<Piece, Position> getPieces(){
+    public HashMap<Piece, Position> getPieces() {
         return Pieces;
     }
 
-    public void addPoints(int points){
-        this.points+=points;
+    public void addPoints(int points) {
+        this.points += points;
     }
 
-    public int getPoints(){
+    public int getPoints() {
         return points;
     }
 

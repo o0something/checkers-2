@@ -1,53 +1,61 @@
 package src;
-public class Piece{
+
+public class Piece {
     public Position pos;
     private boolean isKing;
     public Player player;
-    private static int Red_x;
-    private static int Black_x;
+    private static int White_y = 7;
+    private static int Black_y = 0;
     private String symbol;
 
-    public Piece(Player player){
+    public Piece(Player player) {
         // this.player.color=player.col
-        this.isKing=false;
-        if (player.color=="black"){
-            this.symbol="✈";
-        } else if(player.color=="white") {
-            this.symbol="▍ ▌";
+        this.player = player;
+        this.isKing = false;
+        if (player.color == "black") {
+            this.symbol = "♥";
+        } else if (player.color == "white") {
+            this.symbol = "♡";
         }
 
     }
-    public Piece(){
-        this.isKing=false;
-        this.symbol="e";
+
+    public Piece() {
+        this.isKing = false;
+        this.symbol = " ";
+        this.player = null;
     }
 
-    public void move(Square new_pos){
-        if (new_pos.getX() == Red_x || new_pos.getX() == Black_x){
-            isKing=true;
+    public void move(Square new_pos) {
+        if ((new_pos.getY() == White_y && player.color.equals("white") ) || (new_pos.getY() == Black_y && player.color.equals("black")) ){
+            setIsKing(true);;
         }
-        this.pos=new_pos.pos;
+        this.pos = new_pos.pos;
     };
 
-    public Position getPos(){
+    public Position getPos() {
         return pos;
     };
 
-    public boolean getIsKing(){
+    public boolean getIsKing() {
         return isKing;
-    };  
-
-    public void setIsKing(boolean isKing){
-        this.isKing=isKing;
     };
 
-    public String getSymbol(){
-       return symbol;
+    public void setIsKing(boolean isKing) {
+        this.isKing = isKing;
+        if (player.color == "black") {
+            this.symbol = "♛";
+        } else if (player.color == "white" ){
+            this.symbol = "♕";
+        }
+    };
+
+    public String getSymbol() {
+        return symbol;
     }
 
-    public void setSymbol(String symbol){
-        this.symbol=symbol;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
-    
 }

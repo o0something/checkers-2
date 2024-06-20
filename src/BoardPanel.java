@@ -8,28 +8,33 @@ public class BoardPanel {
     private Board board;
     private JPanel panel;
     private Currentsquers currentsquers;
-    private ArrayList<Square> squares= new ArrayList<Square>();
+    private ArrayList<Square> squares = new ArrayList<Square>();
 
-    public BoardPanel(Board board, Currentsquers currentsquers){
-        this.board=board;
+    public BoardPanel(Board board, Currentsquers currentsquers) {
+        this.board = board;
         panel = new JPanel();
-        panel.setLayout(new GridLayout(8,8));
-        this.currentsquers=currentsquers;
+        panel.setLayout(new GridLayout(8, 8));
+        this.currentsquers = currentsquers;
     }
 
-    public JPanel getPanel(){
+    public Board getBoard() {
+        return board;
+    }
+
+    public JPanel getPanel() {
         return panel;
     }
 
-    public void update(){
-        //update the board
+    public void update() {
+        // update the board
         for (Square sprite : squares) {
             sprite.update();
+
         }
     }
 
-    public void render(){
-        //paint the board
+    public void render() {
+        // paint the board
         for (Square square : board.getSquares()) {
             squares.add(square);
             square.render(panel);
@@ -37,7 +42,7 @@ public class BoardPanel {
         }
     }
 
-    public JPanel makJPanel(Player player1, Player player2){
+    public JPanel makJPanel(Player player1, Player player2) {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 String color;
@@ -56,16 +61,33 @@ public class BoardPanel {
                         Piece piece = new Piece(player2);
                         player2.addPiece(piece, new Position(j, i));
                         square.add_piece(piece);
-                    }else{
+                    } else {
                         square.add_piece(new Piece());
                     }
-                }
-                else{
+                } else {
                     square.add_piece(new Piece());
                 }
                 board.add_square(square.getSquare());
             }
         }
         return panel;
+    }
+
+    public ArrayList<String> getSquares() {
+        ArrayList<String> positions = new ArrayList<>();
+        for (Square square : squares) {
+            positions.add("(" + square.getPos().getX() + " , " + square.getPos().getY() + ") " + " )");
+        }
+        return positions;
+    }
+
+    public Square getSquare(int x, int y) {
+        Position pos = new Position(x, y);
+        for (Square square : squares) {
+            if (square.getPos().equals(pos)) {
+                return square;
+            }
+        }
+        return null;
     }
 }
