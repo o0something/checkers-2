@@ -1,6 +1,9 @@
 package src;
 
 import java.util.ArrayList;
+/**
+ * Represents the board in the game.
+ */
 
 public class Board {
     private ArrayList<Square> squares;
@@ -9,6 +12,10 @@ public class Board {
         squares = new ArrayList<Square>();
     }
 
+    
+    /** 
+     * @param pos
+     */
     public void remove_piece(Position pos) {
         for (Square square : squares) {
             if (square.pos.getX() == pos.getX() && square.pos.getY() == pos.getY()) {

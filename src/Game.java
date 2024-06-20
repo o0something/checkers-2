@@ -1,5 +1,8 @@
 package src;
 
+/**
+ * Main game class that handles the game logic.
+ */
 public class Game {
     private BoardPanel boardPanel;
     private Player player1;
@@ -9,6 +12,14 @@ public class Game {
     private Currentsquers currentsquers;
     private boolean attack;
 
+    /**
+     * Constructs a new Game instance with the specified parameters.
+     *
+     * @param currentsquers The current squares manager.
+     * @param boardPanel The panel that displays the game board.
+     * @param player1 The first player.
+     * @param player2 The second player.
+     */
     public Game(Currentsquers currentsquers, BoardPanel boardPanel, Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
@@ -18,6 +29,10 @@ public class Game {
         this.isRunning = false;
     }
 
+    /**
+     * Executes a move based on the current state of the game.
+     * Checks the legality of the move and updates the game state accordingly.
+     */
     public void make_move() {
         if (currentsquers.size() == 2) {
             Square start = currentsquers.getStart();
@@ -31,7 +46,7 @@ public class Game {
                 movingPiece.move(end);
                 start.remove_piece();
                 currentsquers.clear();
-                if (attack == true) {
+                if (attack) {
                     Position middle = new Position((start.getPos().getX() + end.getPos().getX()) / 2,
                             (start.getPos().getY() + end.getPos().getY()) / 2);
                     boardPanel.getBoard().remove_piece(middle);
@@ -53,6 +68,9 @@ public class Game {
         }
     }
 
+    /**
+     * Switches the current player to the next player.
+     */
     public void switch_player() {
         if (currentPlayer == player1) {
             currentPlayer = player2;
@@ -61,6 +79,13 @@ public class Game {
         }
     }
 
+    /**
+     * Checks the legality of a move from the start square to the end square.
+     *
+     * @param start The starting square.
+     * @param end The ending square.
+     * @return true if the move is legal, false otherwise.
+     */
     public boolean check_move(Square start, Square end) {
         Position start_pos = start.getPos();
         Position end_pos = end.getPos();
@@ -126,21 +151,39 @@ public class Game {
         return false;
     }
 
+    /**
+     * Determines if an attack move is possible from the start square to the end square.
+     *
+     * @param start The starting square.
+     * @param end The ending square.
+     * @return true if the attack move is possible, false otherwise.
+     */
     private boolean attacking(Square start, Square end) {
         Position start_pos = start.getPos();
         Position end_pos = end.getPos();
-        if (boardPanel.getBoard().isAttackMovePossible(start_pos, end_pos)) {
-            return true;
-        }
-        return false;
+        return boardPanel.getBoard().isAttackMovePossible(start_pos, end_pos);
     }
 
+    /**
+     * Checks if a king piece move is valid.
+     *
+     * @param start The starting square.
+     * @param end The ending square.
+     * @param currentPlayer The current player.
+     * @return true if the king move is valid, false otherwise.
+     */
     private boolean check_king_move(Square start, Square end, Player currentPlayer) {
         Position start_pos = start.getPos();
         Position end_pos = end.getPos();
         return boardPanel.getBoard().check_king_move(start_pos, end_pos, currentPlayer);
     }
 
+    /**
+     * Checks if a double jump is possible for the piece at the end square.
+     *
+     * @param end The square where the piece ends after the first jump.
+     * @return true if a double jump is possible, false otherwise.
+     */
     private boolean checkDoubleJump(Square end) {
         Position end_pos = end.getPos();
         int x = end_pos.getX();
@@ -166,6 +209,14 @@ public class Game {
         return false;
     }
 
+    /**
+     * Checks if there is an enemy piece between the start and end positions.
+     *
+     * @param start The starting position.
+     * @param end The ending position.
+     * @param piece The piece making the move.
+     * @return true if there is an enemy piece between the positions, false otherwise.
+     */
     private boolean isEnemyPieceBetween(Position start, Position end, Piece piece) {
         int midX = (start.getX() + end.getX()) / 2;
         int midY = (start.getY() + end.getY()) / 2;
@@ -174,20 +225,30 @@ public class Game {
         return middlePiece != null && middlePiece.player != piece.player;
     }
 
+    /**
+     * Starts the game.
+     */
     public void start() {
         isRunning = true;
     }
 
+    /**
+     * Updates the game state.
+     * Calls make_move and updates the board if the game is running.
+     */
     public void update() {
         if (isRunning) {
             // update the board
             make_move();
             boardPanel.update();
-
         }
-
     }
 
+    /**
+     * Gets the name of the current player.
+     *
+     * @return The color of the current player.
+     */
     public String getCurentPlayerName() {
         return currentPlayer.color;
     }

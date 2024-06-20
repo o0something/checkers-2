@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"src","l":"Board"},{"p":"src","l":"BoardPanel"},{"p":"src","l":"Currentsquers"},{"p":"src","l":"Game"},{"p":"src","l":"Gui"},{"p":"src","l":"Piece"},{"p":"src","l":"Player"},{"p":"src","l":"Position"},{"p":"src","l":"Square"},{"p":"src","l":"SquareState"}];updateSearchResults();

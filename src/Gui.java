@@ -2,8 +2,14 @@ package src;
 
 import javax.swing.*;
 import java.awt.*;
-
+/**
+ * Main GUI class for the game.
+ */
 public class Gui {
+    
+    /** 
+     * @param args
+     */
     public static void main(String[] args) {
         JFrame frame = new JFrame("Checkers Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -25,6 +31,10 @@ public class Gui {
     }
 }
 
+/**
+ * Represents a custom panel for the checkers game.
+ * Extends the JPanel class.
+ */
 class MyPanel extends JPanel {
     private BoardPanel boardPanel;
     public Player player1;
